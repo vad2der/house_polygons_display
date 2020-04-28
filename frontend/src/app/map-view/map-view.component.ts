@@ -125,6 +125,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
         this.displayPolygons(false);
       }
 
+      this.bufferView1 = T.transformScale(this.currentView, 3);
+      this.bufferView2 = T.transformScale(this.currentView, 5);
     });
 
     this.loadPolygons(buffer1OutlineCoords);
