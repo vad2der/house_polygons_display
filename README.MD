@@ -18,11 +18,12 @@ venv is recommended, refer to [https://docs.python.org/3/tutorial/venv.html](htt
 `pip install -r requirements.txt`
 
 Seed the test data: `python seed.py`
+
 Index the collection by location: `python config_db.py`
 
 ### Running dev server
 `python app.py`
-and goto [http://localhost:4200](http://localhost:4200/)
+it will run on __http://localhost:8000__
 
 ## Appendix
 https://docs.google.com/presentation/d/1kIb9-HA4VMh26WW9Z7B43P2udyTMdk2acEy_HIo2lGM/edit?usp=sharing
