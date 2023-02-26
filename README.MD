@@ -1,5 +1,19 @@
 # Polygon display demo
 
+# Updated with docker-compose for local environment
+## Running the first time
+1. Build containers & images
+`docker-compose build`
+2. Configure the DB
+`docker-compose run backend python3 config_db.py`
+3. Seed the DB
+`docker-compose run backend python3 seed.py`
+
+## Running the app
+1. `docker-compose up` and in the browser navigate to [http://localhost:4200](http://localhost:4200/)
+
+
+# One can still run it without docker containers manually running every piece (obsolete part) 
 ## Front End
 Build with Angular cli
 ### Installation

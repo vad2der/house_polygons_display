@@ -1,0 +1,44 @@
+version: "3"
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-dev
+    container_name: "frontend"
+    volumes:
+      - ./frontend/src:/app/src
+    ports:
+      - "4200:4200"
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: "backend"
+    volumes:
+        - ./backend:/app
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: admin
+      DB_NAME_MONGO: polygons
+      DB_COLLECTION_MONGO: polygon_collection
+      DB_HOST_MONGO: db
+      DB_PORT_MONGO: 27017
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - db
+  db:
+    image: mongo
+    container_name: "mongodb"
+    volumes:
+        - ./docker-entrypoint.sh:/entrypoint.sh
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: polygons
+      MONGO_INITDB_COLLECTION: polygon_collection
+    ports:
+      - "27017:27017"
+    command: mongod --auth

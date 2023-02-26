@@ -1,41 +1,24 @@
 import json
 from pymongo import MongoClient
+from os import environ
+from urllib.parse import quote_plus
 
-client = MongoClient()
-db = client.polygons
-polygon_collection = db.polygon_collection
-polygon_collection.drop()
+# mongodb connection
+DB_USERNAME = environ.get("DB_USERNAME")
+DB_PASSWORD = environ.get("DB_PASSWORD")
+DB_NAME = environ.get("DB_NAME_MONGO")
+DB_COLLECTION = environ.get("DB_COLLECTION_MONGO")
+DB_HOST = environ.get("DB_HOST_MONGO")
+DB_PORT = int(environ.get("DB_PORT_MONGO"))
+
+client = MongoClient(host=DB_HOST, port=DB_PORT, username=DB_USERNAME, password=DB_PASSWORD, authSource="admin")
+db = client[DB_NAME]
+collection = db[DB_COLLECTION]
+
+collection.drop()
 
 with open('Full-Stack-Developer-2020-04-example-data.geojson') as f:
     data = json.load(f)
-    
-    # for p in data["features"]:
-    #     result = polygon_collection.insert_one(p)
-
-    polygon_collection.insert_many(data["features"])
+    collection.insert_many(data["features"])
 
 client.close()
-# { "type": "Feature",
-#          "geometry": {
-#            "type": "Polygon",
-#            "coordinates": [
-#              [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
-#                [100.0, 1.0], [100.0, 0.0] ]
-#              ]
-#          },
-#          "properties": {
-#            "prop0": "value0",
-#            "prop1": {"this": "that"}
-#            }
-#          }
-
-{'geometry':
-  {
-    'coordinates': [[[-79.40473067632747, 43.76998674521318], [-79.40470448314495, 43.76999279949358], [-79.40468900083438, 43.76999637824421], [-79.40467140616006, 43.77000045032216], [-79.40466289462007, 43.77000241458563], [-79.40466351345255, 43.770003846303034], [-79.40464106033399, 43.77000905753421], [-79.40461767638241, 43.770013781923076], [-79.40461619108032, 43.77001041421009], [-79.40460044802887, 43.77001392072478], [-79.40458440786247, 43.77001678789979], [-79.40456682561137, 43.770020850972855], [-79.40450191208745, 43.7698696024229], [-79.40455184991613, 43.76985846407868], [-79.40454708460967, 43.76984764957405], [-79.40458707015718, 43.76983840226847], [-79.40459205976336, 43.769848757889115], [-79.40464441971797, 43.76983759450723], [-79.40468380471658, 43.76992705494135], [-79.40470249282045, 43.76992273173081], [-79.40473067632747, 43.76998674521318]]],
-    'type': 'Polygon'
-  },
-  'properties': 
-    {
-      'community': 'Willowdale', 'address': '157 Princess Ave', 'score': 7, 'id': 'e885bfda-60b9-57ff-9d1e-fb601f92cfc2', 'lng': -79.40461592224779, 'lat': 43.76994211955025
-    },
-'type': 'Feature'}

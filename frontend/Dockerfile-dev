@@ -1,0 +1,12 @@
+FROM node:16
+
+# set up angular cli
+RUN npm install -g @angular/cli@9
+
+WORKDIR /app
+COPY . .
+RUN npm ci && npm run build
+
+# this to work only for dev - has to be served through ngnx, express.js or S3 after build.
+CMD ng serve --host 0.0.0.0
+EXPOSE 4200
